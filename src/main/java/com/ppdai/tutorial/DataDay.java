@@ -138,6 +138,9 @@ public class DataDay extends StatisticAbstract{
 	 */
 	public String toString() {
 		// TODO: complete the implementation
+		if(this.getMonth() == 0) {
+			return "0000 - 00, null: Wind = [invalid, invalid, invalid], Solar Radiation = invalid";
+		}
 		return this.year + "-" + this.month + "-" + this.day + ", " + "UPLAND: Wind = [" + this.windSpeedMin + ", "
 				+ this.windSpeedAverage + ", " + this.windSpeedMax + "], " + "Solar Radiation = " + this.solarRadiation;
 	}

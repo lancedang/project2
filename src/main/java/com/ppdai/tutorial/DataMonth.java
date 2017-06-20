@@ -1,5 +1,9 @@
 package com.ppdai.tutorial;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -53,6 +57,11 @@ public class DataMonth extends MultiStatisticAbstract {
         return days.size();
     }
 
+    //@Override
+    public String toString2(){
+
+        return ".......";
+    }
     /**
      * Describe the month
      *
@@ -90,5 +99,64 @@ public class DataMonth extends MultiStatisticAbstract {
                 solarMin + ", " + solarAve + ", " + solarMax + "]";
         return result;
     }
+
+    public static void main(String[] args) throws IOException {
+
+        //TODO: Test goes here...
+        DataMonth month = new DataMonth();
+
+
+        FileReader fileReader = new FileReader("data/test.csv");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        DataDay dataDay;
+
+        String dayLine = bufferedReader.readLine();
+        //dayLine = bufferedReader.readLine();
+        boolean flag = true;
+
+        while (dayLine != null) {
+            // get every item
+            System.out.println(dayLine);
+            String[] items = dayLine.split(",");
+
+            int year = Integer.parseInt(items[0]);
+            int mon = Integer.parseInt(items[1]);
+            int day = Integer.parseInt(items[2]);
+
+            String stationID = items[3];
+
+            Sample solarRadiation = new Sample(Double.parseDouble(items[4]));
+
+            Sample windSpeedMax = new Sample(Double.parseDouble(items[5]));
+            Sample windSpeedMin = new Sample(Double.parseDouble(items[6]));
+            Sample windSpeedAverage = new Sample(Double.parseDouble(items[7]));
+
+            //无效sample导致无效dataday
+            if (!solarRadiation.isValid()) {
+                System.out.println("--------INVALID--------");
+                dataDay = new DataDay();
+            } else {
+                dataDay = new DataDay(year, mon, day, stationID, solarRadiation, windSpeedMax, windSpeedMin,
+                        windSpeedAverage);
+            }
+            //months.get(month-1).addDay(dataDay);
+            month.addDay(dataDay);
+
+            // read next line
+            dayLine = bufferedReader.readLine();
+        }
+
+        // close file
+        fileReader.close();
+        bufferedReader.close();
+
+        String result = "2015 - 11, TISH: Wind = [0.0000, 8.9807, 28.8100], " +
+                "Solar Radiation = [0.9000, 8.8883, 15.2500]";
+        System.out.println("--------------------");
+
+        System.out.println(month.toString());
+    }
+
 
 }

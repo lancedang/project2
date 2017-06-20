@@ -17,12 +17,14 @@ public abstract class MultiStatisticAbstract extends StatisticAbstract {
         int invalid_count = 0;
         for (int i = 0; i < count; i++) {
             //判断dataday是否有效
-            boolean is_day_valid = getItem(i).getWindSpeedMinDay().getSolarRadiation().isValid();
-            if (!is_day_valid) {
+            //Sample tmp = getItem(i).getWindSpeedMinDay().getSolarRadiation();
+            Sample tmp = getItem(i).getWindSpeedAverage();
+            if(tmp == null || !tmp.isValid()) {
                 invalid_count++;
                 continue;
             }
-            sum += getItem(i).getWindSpeedAverage().getValue();
+
+            sum += tmp.getValue();
         }
         Sample result = new Sample(sum / (count - invalid_count));
         return result;
@@ -51,6 +53,9 @@ public abstract class MultiStatisticAbstract extends StatisticAbstract {
         int dayIndex = 0;
         for (int i = j + 1; i < count; i++) {
             Sample tmp = getItem(i).getWindSpeedMaxDay().getWindSpeedMax();
+            if(tmp == null || !tmp.isValid()) {
+                continue;
+            }
             if (max.isLessThan(tmp)) {
                 max = tmp;
                 //记录最大值天的index
@@ -67,7 +72,7 @@ public abstract class MultiStatisticAbstract extends StatisticAbstract {
         // TODO Auto-generated method stub
         int count = itemCount();
         //空dataday表示无效对象
-        if (count == 0 || getItem(0).getWindSpeedMinDay().getMonth() == 0) {
+        if (count == 0) {
             return new DataDay();
         }
         Sample min = new Sample();
@@ -83,7 +88,13 @@ public abstract class MultiStatisticAbstract extends StatisticAbstract {
 
         int dayIndex = 0;
         for (int i = j + 1; i < count; i++) {
+            //StatisticAbstract tmpItem = getItem(i);
+
+            //tmpItem = getItem(i);
             Sample tmp = getItem(i).getWindSpeedMinDay().getWindSpeedMin();
+            if(tmp == null || !tmp.isValid()) {
+                continue;
+            }
             if (min.isGreaterThan(tmp)) {
                 min = tmp;
                 dayIndex = i;
@@ -105,13 +116,14 @@ public abstract class MultiStatisticAbstract extends StatisticAbstract {
         double sum = 0;
         int invalid_count = 0;
         for (int i = 0; i < count; i++) {
-            boolean is_day_valid = getItem(i).getWindSpeedMinDay().getSolarRadiation().isValid();
-            //排除无效sample
-            if (!is_day_valid) {
+
+            Sample tmp = getItem(i).getSolarRadiationAverage();
+            if(tmp == null || !tmp.isValid()) {
                 invalid_count++;
                 continue;
             }
-            sum += getItem(i).getSolarRadiationAverage().getValue();
+
+            sum += tmp.getValue();
         }
         Sample result = new Sample(sum / (count - invalid_count));
         return result;
@@ -141,9 +153,11 @@ public abstract class MultiStatisticAbstract extends StatisticAbstract {
         for (int i = j + 1; i < count; i++) {
             Sample tmp = getItem(i).getSolarRadiationMaxDay().getSolarRadiation();
             //排除无效sample，确保有效sample之间的比较
-            if (!tmp.isValid()) {
+
+            if(tmp == null || !tmp.isValid()) {
                 continue;
             }
+
             if (max.isLessThan(tmp)) {
                 max = tmp;
                 dayIndex = i;
@@ -176,6 +190,9 @@ public abstract class MultiStatisticAbstract extends StatisticAbstract {
         int dayIndex = 0;
         for (int i = j + 1; i < count; i++) {
             Sample tmp = getItem(i).getSolarRadiationMinDay().getSolarRadiation();
+            if(tmp == null || !tmp.isValid()) {
+                continue;
+            }
             if (min.isGreaterThan(tmp)) {
                 min = tmp;
                 dayIndex = i;
