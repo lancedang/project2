@@ -58,10 +58,11 @@ public class DataMonth extends MultiStatisticAbstract {
     }
 
     //@Override
-    public String toString2(){
+    public String toString2() {
 
         return ".......";
     }
+
     /**
      * Describe the month
      *
@@ -84,19 +85,16 @@ public class DataMonth extends MultiStatisticAbstract {
             return "0000 - 00, null: Wind = [invalid, invalid, invalid], Solar Radiation = [invalid, invalid, invalid]";
         }
 
-        String windMin = String.format("%.4f", minWindDay.getWindSpeedMin().getValue());
-        String windAve = String.format("%.4f", windA.getValue());
-        String windMax = String.format("%.4f", maxWindDay.getWindSpeedMax().getValue());
-
-        String solarMin = String.format("%.4f", minSolarDay.getSolarRadiation().getValue());
-        String solarAve = String.format("%.4f", solarA.getValue());
-        String solarMax = String.format("%.4f", maxSolarDay.getSolarRadiation().getValue());
+        Sample windMin = minWindDay.getWindSpeedMin();
+        Sample windMax = maxWindDay.getWindSpeedMax();
+        Sample solarMin = minSolarDay.getSolarRadiation();
+        Sample solarMax = maxSolarDay.getSolarRadiation();
 
         String mon = this.month < 10 ? "0" + this.month : this.month + "";
 
         String result = year + " - " + mon + ", " + stationID + ": Wind = [" +
-                windMin + ", " + windAve + ", " + windMax + "], Solar Radiation = [" +
-                solarMin + ", " + solarAve + ", " + solarMax + "]";
+                windMin + ", " + windA + ", " + windMax + "], Solar Radiation = [" +
+                solarMin + ", " + solarA + ", " + solarMax + "]";
         return result;
     }
 
@@ -104,7 +102,6 @@ public class DataMonth extends MultiStatisticAbstract {
 
         //TODO: Test goes here...
         DataMonth month = new DataMonth();
-
 
         FileReader fileReader = new FileReader("data/test.csv");
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -133,13 +130,9 @@ public class DataMonth extends MultiStatisticAbstract {
             Sample windSpeedAverage = new Sample(Double.parseDouble(items[7]));
 
             //无效sample导致无效dataday
-            if (!solarRadiation.isValid()) {
-                System.out.println("--------INVALID--------");
-                dataDay = new DataDay();
-            } else {
-                dataDay = new DataDay(year, mon, day, stationID, solarRadiation, windSpeedMax, windSpeedMin,
-                        windSpeedAverage);
-            }
+            dataDay = new DataDay(year, mon, day, stationID, solarRadiation, windSpeedMax, windSpeedMin,
+                    windSpeedAverage);
+
             //months.get(month-1).addDay(dataDay);
             month.addDay(dataDay);
 
@@ -156,6 +149,11 @@ public class DataMonth extends MultiStatisticAbstract {
         System.out.println("--------------------");
 
         System.out.println(month.toString());
+
+        DataMonth emptyMonth = new DataMonth();
+        System.out.println(emptyMonth.toString());
+
+
     }
 
 

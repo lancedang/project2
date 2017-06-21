@@ -9,7 +9,7 @@ import java.util.List;
 public class DataYear extends MultiStatisticAbstract {
     private int year;
     private String stationID;
-    private final List<DataMonth> months;
+    private List<DataMonth> months;
 
     public DataYear(String fileName) throws IOException {
         months = new ArrayList<>();
@@ -51,12 +51,9 @@ public class DataYear extends MultiStatisticAbstract {
             Sample windSpeedAverage = new Sample(Double.parseDouble(items[7]));
 
             //无效sample导致无效dataday
-            if (!solarRadiation.isValid()) {
-                dataDay = new DataDay();
-            } else {
-                dataDay = new DataDay(year, month, day, stationID, solarRadiation, windSpeedMax, windSpeedMin,
-                        windSpeedAverage);
-            }
+            dataDay = new DataDay(year, month, day, stationID, solarRadiation, windSpeedMax, windSpeedMin,
+                    windSpeedAverage);
+
             //months.get(month-1).addDay(dataDay);
             addDay(dataDay);
 
@@ -87,5 +84,39 @@ public class DataYear extends MultiStatisticAbstract {
     @Override
     protected int itemCount() {
         return months.size();
+    }
+
+    public String toString() {
+        //output like "06"
+        DataDay minWindDay = getWindSpeedMinDay();
+        DataDay maxWindDay = getWindSpeedMaxDay();
+
+        DataDay minSolarDay = getSolarRadiationMinDay();
+        DataDay maxSolarDay = getSolarRadiationMaxDay();
+
+        Sample windA = getWindSpeedAverage();
+        Sample solarA = getSolarRadiationAverage();
+
+        //当返回无效dataday时,无效dataday的属性都未初始化
+        if (minWindDay == null || minWindDay.getMonth() == 0) {
+            return "0000 - 00, null: Wind = [invalid, invalid, invalid], Solar Radiation = [invalid, invalid, invalid]";
+        }
+
+        Sample windMin = minWindDay.getWindSpeedMin();
+        Sample windMax = maxWindDay.getWindSpeedMax();
+        Sample solarMin = minSolarDay.getSolarRadiation();
+        Sample solarMax = maxSolarDay.getSolarRadiation();
+
+        String result = year + ", " + this.stationID + ": Wind = [" +
+                windMin + ", " + windA + ", " + windMax + "], Solar Radiation = [" +
+                solarMin + ", " + solarA + ", " + solarMax + "]";
+        return result;
+    }
+
+    public static void main(String[] args) throws IOException {
+        DataYear year = new DataYear("data/2015/TISH.csv");
+        DataYear year2 = new DataYear("data/2013/HINT.csv");
+        System.out.println(year);
+        System.out.println(year2);
     }
 }

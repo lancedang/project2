@@ -1,4 +1,4 @@
-package test.com.ppdai.tutorial;
+package com.ppdai.tutorial;
 
 import static org.junit.Assert.*;
 

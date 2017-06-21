@@ -1,4 +1,4 @@
-package test.com.ppdai.tutorial;
+package com.ppdai.tutorial;
 
 import static org.junit.Assert.*;
 
@@ -35,11 +35,11 @@ public class DataDayTest {
         Sample windMin = new Sample(3);
         Sample windAve = new Sample(13.12345);
         Sample windMax = new Sample(23.1234);
-        DataDay dataDay = new DataDay(2017, 6, 3, "station", solarRadation, windMax, windMin, windAve);
+        DataDay dataDay = new DataDay(2017, 6, 3, "UPLAND", solarRadation, windMax, windMin, windAve);
 
         DataDay invalidDay = new DataDay();
 
-        assertEquals("2017-6-3, UPLAND: Wind = [3.0000, 13.1235, 23.1234], Solar Radiation = 30.3400",
+        assertEquals("2017-06-03, UPLAND: Wind = [3.0000, 13.1235, 23.1234], Solar Radiation = 30.3400",
                 dataDay.toString());
         assertEquals("0000 - 00, null: Wind = [invalid, invalid, invalid], Solar Radiation = invalid",
                 invalidDay.toString());
