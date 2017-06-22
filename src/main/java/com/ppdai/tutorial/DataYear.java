@@ -50,7 +50,6 @@ public class DataYear extends MultiStatisticAbstract {
             Sample windSpeedMin = new Sample(Double.parseDouble(items[6]));
             Sample windSpeedAverage = new Sample(Double.parseDouble(items[7]));
 
-            //无效sample导致无效dataday
             dataDay = new DataDay(year, month, day, stationID, solarRadiation, windSpeedMax, windSpeedMin,
                     windSpeedAverage);
 

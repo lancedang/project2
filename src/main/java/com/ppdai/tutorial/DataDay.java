@@ -1,27 +1,9 @@
 package com.ppdai.tutorial;
 
-/**
- * @author CS2334. Modified by: ?????
- *         <p>
- *         Date: 2015-09-10 <BR>
- *         Project 1
- *         <p>
- *         This class represents a summary of one day's data from a single
- *         Mesonet station.
- */
-
 public class DataDay extends StatisticAbstract {
-    /**
-     * Year in which the data were sampled
-     */
+
     private int year;
-    /**
-     * Month in which  the data were sampled
-     */
     private int month;
-    /**
-     * The day on which the data were sampled (1=January, 2=February, etc
-     */
     private int day;
 
     // TODO: Fill in remaining components
@@ -102,27 +84,23 @@ public class DataDay extends StatisticAbstract {
 
     @Override
     public DataDay getWindSpeedMaxDay() {
-        // TODO Auto-generated method stub
         return this;
     }
 
     @Override
     //继承自父类同自身属性
     public Sample getWindSpeedAverage() {
-        // TODO Auto-generated method stub
         return windSpeedAverage;
     }
 
     @Override
     //继承自父类
     public Sample getSolarRadiationAverage() {
-        // TODO Auto-generated method stub
         return solarRadiation;
     }
 
     @Override
     public DataDay getSolarRadiationMinDay() {
-        // TODO Auto-generated method stub
         return this;
     }
 
@@ -132,19 +110,13 @@ public class DataDay extends StatisticAbstract {
         return this;
     }
 
-    /**
-     * Describe the data for the day
-     *
-     * @return String describing the day
-     */
     public String toString() {
-        // TODO: complete the implementation
-        if (this.getMonth() == 0) {
+        // 当为无效dataday时
+        if (this.getYear() == 0) {
             return "0000 - 00, null: Wind = [invalid, invalid, invalid], Solar Radiation = invalid";
         }
         String mon = this.month < 10 ? "0" + this.month : this.month + "";
         String day = this.day < 10 ? "0" + this.day : this.day + "";
-
 
         return this.year + "-" + mon + "-" + day + ", " + this.stationID + ": Wind = [" + this.windSpeedMin + ", "
                 + this.windSpeedAverage + ", " + this.windSpeedMax + "], " + "Solar Radiation = " + this.solarRadiation;

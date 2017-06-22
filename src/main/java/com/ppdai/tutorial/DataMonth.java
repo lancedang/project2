@@ -7,15 +7,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * @author CS2334. Modified by: ?????
- *         <p>
- *         Date: 2015-09-10 <BR>
- *         Project 1
- *         <p>
- *         This class represents the data for all of the days within a single
- *         month
+ * This class represents the data for all of the days within a single
+ * month
  */
-
 public class DataMonth extends MultiStatisticAbstract {
     /**
      * The set of days.
@@ -24,7 +18,6 @@ public class DataMonth extends MultiStatisticAbstract {
 
     private int year;
     private int month;
-
     private String stationID;
 
     public DataMonth() {
@@ -33,14 +26,10 @@ public class DataMonth extends MultiStatisticAbstract {
     }
 
     public void addDay(DataDay day) {
-        //初始化月份的 year, month, stationId 属性
+        //初始化月份的 year, month, stationId 属性,year为0表明第一次添加dataday
         if (this.year == 0) {
             this.year = day.getYear();
-        }
-        if (this.month == 0) {
             this.month = day.getMonth();
-        }
-        if (this.stationID == null) {
             this.stationID = day.getStationID();
         }
         days.add(day);
@@ -55,12 +44,6 @@ public class DataMonth extends MultiStatisticAbstract {
     @Override
     public int itemCount() {
         return days.size();
-    }
-
-    //@Override
-    public String toString2() {
-
-        return ".......";
     }
 
     /**

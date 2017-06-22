@@ -1,11 +1,8 @@
 package com.ppdai.tutorial;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
-import com.ppdai.tutorial.DataDay;
-import com.ppdai.tutorial.Sample;
+import static org.junit.Assert.assertEquals;
 
 public class DataDayTest {
 

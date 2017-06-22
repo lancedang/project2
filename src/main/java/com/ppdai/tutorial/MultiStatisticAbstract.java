@@ -17,7 +17,6 @@ public abstract class MultiStatisticAbstract extends StatisticAbstract {
         int invalid_count = 0;
         for (int i = 0; i < count; i++) {
             //判断dataday是否有效
-            //Sample tmp = getItem(i).getWindSpeedMinDay().getSolarRadiation();
             Sample tmp = getItem(i).getWindSpeedAverage();
             if(tmp == null || !tmp.isValid()) {
                 invalid_count++;
